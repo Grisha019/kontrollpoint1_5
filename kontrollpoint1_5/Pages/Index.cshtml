@@ -1,0 +1,98 @@
+﻿@page
+@model EditableTextWebApp.Pages.IndexModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Редактирование текста</title>
+    <style>
+        #editor {
+            width: 100%;
+            height: 200px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+            overflow-y: auto;
+        }
+
+        .toolbar {
+            margin-bottom: 10px;
+        }
+            .toolbar button {
+                margin-right: 5px;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+    <h1>Редактирование текста</h1>
+    <div class="toolbar">
+        <button type="button" id="boldBtn">Жирный</button>
+        <button type="button" id="italicBtn">Курсив</button>
+        <button type="button" id="underlineBtn">Подчеркнутый</button>
+    </div>
+    <form method="post">
+        <div id="editor" contenteditable="true">@Html.Raw(Model.Text)</div>
+        <input type="hidden" id="hiddenText" name="Text" value="@Model.Text" />
+        <button type="submit" onclick="syncText()">Сохранить</button>
+    </form>
+    <script>
+        document.getElementById("boldBtn").addEventListener("click", () => {
+            document.execCommand("bold");
+        });
+
+        document.getElementById("italicBtn").addEventListener("click", () => {
+            document.execCommand("italic");
+        });
+
+        document.getElementById("underlineBtn").addEventListener("click", () => {
+            document.execCommand("underline");
+        });
+        function syncText() {
+            const editor = document.getElementById("editor");
+            const hiddenText = document.getElementById("hiddenText");
+            hiddenText.value = editor.innerHTML; 
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Подключаем библиотеку TinyMCE
+   <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+   <script>
+       tinymce.init({
+           selector: '#editor',
+           plugins: 'paste code',
+           toolbar: 'bold italic underline | alignleft aligncenter alignright | code',
+           menubar: false,
+           setup: function (editor) {
+               editor.on('change', function () {
+                   document.getElementById('hiddenText').value = editor.getContent();
+               });
+           }
+       });
+   </script>-->
